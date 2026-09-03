@@ -31,7 +31,36 @@ h1{
   position: relative;
   height: 50px;
   opacity: 0.3;
-  color: rgb(52, 52, 53);
+  color: rgb(0, 0, 0);
   font-size: medium;
   padding-left: 20px;
+}
+
+.input-field:focus{
+  outline: none;
+  border: none;
+}
+
+.prompt-field{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+}
+
+.prompt-btn{
+  background-color: rgb(61, 134, 211);
+  border: nones;
+  color: white;
+  font-weight: bold;
+  font-size: large;
+  width: 100px;
+  height: 100px;
+  border-radius: 300px;
+}
+
+.prompt-btn:focus{
+  border: none;
+  outline: none;
+  background-color: rgb(121, 189, 232);
 }
