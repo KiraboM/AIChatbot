@@ -11,6 +11,7 @@ function App() {
   const [waiting, setWaiting] = useState(false)
 
   async function sendPrompt(message){
+    setPrompt('')
     setWaiting(true)
     setChat(true)
     const response = await fetch('http://localhost:8000/chat',{

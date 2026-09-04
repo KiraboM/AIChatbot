@@ -97,10 +97,12 @@ h1{
   color: white;
   font-size: medium;
   font-family: sans-serif;
-  width: 200px;
+  width: 300px;
   height: fit-content;
   border-radius: 20px;
   margin-left: auto;
+  margin-top: 30px;
+  align-content: center;
 }
 
 .ai-response{
@@ -108,8 +110,10 @@ h1{
   color: black;
   font-size: medium;
   font-family: sans-serif;
-  width: 200px;
+  width: 300px;
   height: fit-content;
   border-radius: 20px;
   margin-right: auto;
+  margin-top: 30px;
+  align-content: center;
 }
