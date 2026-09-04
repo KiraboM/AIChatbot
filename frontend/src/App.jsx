@@ -4,22 +4,30 @@ import reactLogo from './assets/react.svg'
 import viteLogo from './assets/vite.svg'
 import './App.css'
 
-async function sendPrompt(message){
+function App() {
+  const [inChat, setChat] = useState(false)
+  const [response, setResponse] = useState('')
+  const [prompt, setPrompt] = useState('')
+  const [waiting, setWaiting] = useState(false)
+
+  async function sendPrompt(message){
+    setWaiting(true)
     const response = await fetch('http://localhost:8000/chat',{
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ prompt: message }),
     })
+    setWaiting(false)
     return response.json()
-}
+  }
 
-function App() {
-  const [inChat, setChat] = useState(false)
-  const [response, setResponse] = useState('')
-  const [prompt, setPrompt] = useState('')
+ /*  useEffect(() => {
+
+  }, [prompt]) */
 
   return (
     <div className='main'>
+    
       <h1>Welcome to your AI Chatbot!</h1>
       
       <div className='prompt-field'>
@@ -37,7 +45,7 @@ function App() {
         >
             Submit Prompt
         </button>
-        <p>{response}</p>
+        {waiting ? <p>Waiting for response</p> : <p>{response}</p>}
       </div>
     </div>
   )
