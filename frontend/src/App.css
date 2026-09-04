@@ -103,6 +103,7 @@ h1{
   margin-left: auto;
   margin-top: 30px;
   align-content: center;
+  padding: 5px;
 }
 
 .ai-response{
@@ -116,4 +117,5 @@ h1{
   margin-right: auto;
   margin-top: 30px;
   align-content: center;
+  padding: 5px;
 }
