@@ -27,7 +27,7 @@ function App() {
   }, [prompt]) */
 
   return (
-    <div>
+    <div className='entire-screen'>
       { !inChat ? 
       <div className='main'>
         <h1>Welcome to your AI Chatbot!</h1>
@@ -53,23 +53,20 @@ function App() {
       <div className='chat'>
         <p className='user-prompt'>{prompt}</p>
         {waiting ? <p>Waiting for response</p> : <p className='ai-response'>{response}</p>}
-        <div className='prompt-field-chat'>
-          <input 
-            type="text"
-            placeholder='Enter promt here' 
-            className='input-field'
-            id='input-field'
-            value={prompt}
-            onChange={(e) => setPrompt(e.target.value)}
-          />
-          <button 
-            className='prompt-btn-chat'
-            onClick={() => sendPrompt(prompt).then((data) => setResponse(data.answer))}
-          >
-              Submit Prompt
-          </button>
-        </div>
-
+        <input 
+          type="text"
+          placeholder='Enter promt here' 
+          className='input-field'
+          id='input-field'
+          value={prompt}
+          onChange={(e) => setPrompt(e.target.value)}
+        />
+        <button 
+          className='prompt-btn-chat'
+          onClick={() => sendPrompt(prompt).then((data) => setResponse(data.answer))}
+        >
+          Submit Prompt
+        </button>
       </div>
     }
     </div>
