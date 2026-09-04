@@ -65,7 +65,7 @@ function App() {
           className='prompt-btn-chat'
           onClick={() => sendPrompt(prompt).then((data) => setResponse(data.answer))}
         >
-          Submit Prompt
+          <i className='fa fa-arrow-up w3-xxlarge'></i>
         </button>
       </div>
     }
