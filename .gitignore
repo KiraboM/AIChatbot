@@ -2,3 +2,6 @@
 .env
 .env.*
 !.env.example
+
+# Ollama model data (large binary blobs + SSH keys, should not be committed)
+ollama/ollama/
