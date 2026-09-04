@@ -16,7 +16,7 @@ app = FastAPI(
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
+    allow_origins=["http://localhost:8080", "http://172.19.0.3:8080"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -37,48 +37,45 @@ async def chat(request: ChatRequest):
     """Send a prompt and receive reasoning + answer from the model."""
     messages = [{"role": "user", "content": request.prompt}]
     
-    completion = client.chat.completions.create(
-        model="qwen3:8b",
-        messages=messages,
-        extra_body={
-            "chat_template_kwargs": {
-                "enable_thinking": True,
-                "preserve_thinking": True,
+    try:
+        completion = client.chat.completions.create(
+            model="qwen3:8b",
+            messages=messages,
+            # Ollama expects standard hyperparameters inside extra_body or options
+            extra_body={
+                "options": {
+                    "top_k": 20,
+                    "temperature": 1.0,
+                    "top_p": 0.95,
+                }
             },
-            "top_k": 20,
-        },
-        reasoning_effort="xhigh",
-        temperature=1.0,
-        top_p=0.95,
-        stream=True,
-        stream_options={"include_usage": True},
-    )
-    
-    reasoning_content = ""
-    answer_content = ""
-    
-    for chunk in completion:
-        if not chunk.choices:
-            continue
+            stream=False
+        )
         
-        delta = chunk.choices[0].delta
+        # Extract the assistant message safely
+        message = completion.choices[0].message
+        answer_content = message.content or ""
         
-        if hasattr(delta, "reasoning_content") and delta.reasoning_content:
-            reasoning_content += delta.reasoning_content
+        # Ollama passes the reasoning thoughts into the "reasoning_content" property 
+        # or embeds it directly in the text inside <think></think> tags.
+        reasoning_content = getattr(message, "reasoning_content", "") or ""
         
-        if hasattr(delta, "content") and delta.content:
-            answer_content += delta.content
-    
-    conversation_history.append({
-        "role": "assistant",
-        "content": answer_content,
-        "reasoning_content": reasoning_content,
-    })
-    
-    return {
-        "reasoning": reasoning_content,
-        "answer": answer_content,
-    }
+        conversation_history.append({
+            "role": "assistant",
+            "content": answer_content,
+            "reasoning_content": reasoning_content,
+        })
+        
+        return {
+            "reasoning": reasoning_content,
+            "answer": answer_content,
+        }
+        
+    except Exception as e:
+        # If something else fails, this prints the ACTUAL issue to your terminal
+        print(f"CRITICAL BACKEND ERROR: {str(e)}")
+        return {"error": "Internal Server Crash", "details": str(e)}
+
 
 @app.get("/health")
 async def health():

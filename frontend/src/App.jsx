@@ -5,7 +5,7 @@ import viteLogo from './assets/vite.svg'
 import './App.css'
 
 async function sendPrompt(message){
-    const response = await fetch('http://localhost:8080/chat',{
+    const response = await fetch('http://localhost:8000/chat',{
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ prompt: message }),
@@ -37,6 +37,7 @@ function App() {
         >
             Submit Prompt
         </button>
+        <p>{response}</p>
       </div>
     </div>
   )
