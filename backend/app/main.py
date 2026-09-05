@@ -77,7 +77,7 @@ async def chat(request: ChatRequest):
         print(f"CRITICAL BACKEND ERROR: {str(e)}")
         return {"error": "Internal Server Crash", "details": str(e)}
 
-@app.post("/conversation")
+@app.get("/conversation")
 async def conversation():
     """ Send the conversation history to the user """
     return conversation_history
