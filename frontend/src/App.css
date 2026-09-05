@@ -105,7 +105,7 @@ h1{
   align-content: center;
   padding: 5px;
   animation-name: appear;
-  animation-duration: 1s;
+  animation-duration: 0.5s;
 }
 
 .ai-response{
@@ -121,7 +121,7 @@ h1{
   align-content: center;
   padding: 5px;
   animation-name: appear;
-  animation-duration: 1s;
+  animation-duration: 0.5s;
 }
 
 /* Animations */
