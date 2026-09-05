@@ -67,6 +67,7 @@ function App() {
               {waiting ? <p>Waiting for resposne...</p> : <p className='ai-response'>{response.answer}</p>}
             </div>
           ) : (
+          <div>
             <ul>
               {conversation.map((list) => (
                 <li>
@@ -75,6 +76,13 @@ function App() {
                 </li>
               ))}
             </ul>
+            {waiting && (
+              <div>
+                <p className='user-prompt'>{prompt}</p>
+                <p>Waiting for resposne...</p>
+              </div>
+            )}
+          </div>
           )}
             <div className='prompt-field'>
               <input 
