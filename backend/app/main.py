@@ -62,14 +62,17 @@ async def chat(request: ChatRequest):
         
         conversation_history.append({
             "role": "assistant",
+            "prompt": request.prompt,
             "content": answer_content,
             "reasoning_content": reasoning_content,
         })
+
+        return conversation_history
         
-        return {
+        """ return {
             "reasoning": reasoning_content,
             "answer": answer_content,
-        }
+        } """
         
     except Exception as e:
         # If something else fails, this prints the ACTUAL issue to your terminal
