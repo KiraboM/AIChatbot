@@ -13,9 +13,8 @@
 
 .main{
   background-color: white;
-  flex: auto;
+  display: flex;
   flex-direction: column;
-  align-items: center;
   margin-top: 200px;
 }
 
@@ -44,11 +43,21 @@ h1{
   border: none;
 }
 
+.prompt-field-container{
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
 .prompt-field{
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   align-items: center;
+  justify-content: center;
   gap: 20px;
+  width: 600px;
+  border-radius: 200px;
+  background-color: var(--input-field-col);
 }
 
 .prompt-btn{
@@ -57,8 +66,8 @@ h1{
   color: white;
   font-weight: bold;
   font-size: large;
-  width: 100px;
-  height: 100px;
+  width: 50px;
+  height: 50px;
   border-radius: 300px;
 }
 
@@ -74,10 +83,13 @@ h1{
   color: white;
   font-weight: bold;
   font-size: large;
-  width: 100px;
-  height: 100px;
+  width: 45px;
+  height: 45px;
   border-radius: 300px;
-  margin-top: auto;
+}
+
+.prompt-btn-chat-container{
+  padding-right: 5px;
 }
 
 .prompt-input{

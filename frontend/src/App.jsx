@@ -56,13 +56,15 @@ function App() {
               }
             }}
           />
-          <button 
-            className='prompt-btn-chat'
-            onClick={() => sendPrompt(prompt).then((data) => setResponse(data))}
-          >
-            {/* <i className='fa fa-arrow-up w3-large'></i> */}
-            Submit Prompt
-          </button>
+          <div className='prompt-btn-chat-container'>
+            <button 
+              className='prompt-btn-chat'
+              title='Send prompt'
+              onClick={() => sendPrompt(prompt).then((data) => setResponse(data))}
+            >
+              <i className='fa fa-arrow-up w3-large'></i>
+            </button>
+          </div>
         </div>
       </div>
       : 
@@ -90,26 +92,27 @@ function App() {
             )}
           </div>
           )}
-            <div className='prompt-field'>
-              <input 
-                type="text"
-                placeholder='Enter promt here' 
-                className='input-field'
-                id='input-field'
-                onChange={(e) => setPrompt(e.target.value)}
-                onKeyDown={(e) => {
-                  if (e.key === "Enter") {
-                    sendPrompt(prompt).then((data) => setResponse(data))
-                  }
-                }}
-              />
-              <button 
-                className='prompt-btn-chat'
-                onClick={() => sendPrompt(prompt).then((data) => setResponse(data))}
-              >
-                {/* <i className='fa fa-arrow-up w3-large'></i> */}
-                Submit Prompt
-              </button>
+            <div className='prompt-field-container'>
+              <div className='prompt-field'>
+                <input 
+                  type="text"
+                  placeholder='Enter promt here' 
+                  className='input-field'
+                  id='input-field'
+                  onChange={(e) => setPrompt(e.target.value)}
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter") {
+                      sendPrompt(prompt).then((data) => setResponse(data))
+                    }
+                  }}
+                />
+                <button 
+                  className='prompt-btn-chat'
+                  onClick={() => sendPrompt(prompt).then((data) => setResponse(data))}
+                >
+                  <i className='fa fa-arrow-up w3-large'></i>
+                </button>
+              </div>
             </div>
           </div>
       
