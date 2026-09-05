@@ -66,18 +66,21 @@ async def chat(request: ChatRequest):
             "content": answer_content,
             "reasoning_content": reasoning_content,
         })
-
-        return conversation_history
         
-        """ return {
+        return {
             "reasoning": reasoning_content,
             "answer": answer_content,
-        } """
+        }
         
     except Exception as e:
         # If something else fails, this prints the ACTUAL issue to your terminal
         print(f"CRITICAL BACKEND ERROR: {str(e)}")
         return {"error": "Internal Server Crash", "details": str(e)}
+
+@app.post("/conversation")
+async def conversation():
+    """ Send the conversation history to the user """
+    return conversation_history
 
 
 @app.get("/health")

@@ -6,7 +6,7 @@ import './App.css'
 
 function App() {
   const [inChat, setChat] = useState(false)
-  //const [response, setResponse] = useState('')
+  const [response, setResponse] = useState('')
   const [prompt, setPrompt] = useState('')
   const [waiting, setWaiting] = useState(false)
   const [conversation, setConversation] = useState([])
@@ -14,18 +14,26 @@ function App() {
   async function sendPrompt(message){
     setWaiting(true)
     setChat(true)
-    const conversation = await fetch('http://localhost:8000/chat',{
+    const response = await fetch('http://localhost:8000/chat',{
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ prompt: message }),
     })
     setWaiting(false)
+    return response.json()
+  }
+
+  async function getConversation(){
+    const conversation = await fetch('http://localhost:8000/conversation',{
+      method: "GET",
+      headers: { "Content-Type": "application/json" },
+    })
     return conversation.json()
   }
 
- /*  useEffect(() => {
-
-  }, [prompt]) */
+  useEffect(() => {
+    getConversation().then((data) => setConversation(data))
+  }, [response])
 
   return (
     <div className='entire-screen'>
@@ -44,7 +52,7 @@ function App() {
           />
           <button 
             className='prompt-btn-chat'
-            onClick={() => sendPrompt(prompt).then((data) => setConversation(data))}
+            onClick={() => sendPrompt(prompt).then((data) => setResponse(data))}
           >
             {/* <i className='fa fa-arrow-up w3-large'></i> */}
             Submit Prompt
@@ -53,12 +61,21 @@ function App() {
       </div>
       : 
         <div className='main'>
-          {conversation.map((list) => (/* This function causes frontend to crash. Fix it! */
+          {conversation.length === 0 ? (
             <div>
-              <p className='user-prompt' key={list.prompt}>{list.prompt}</p>
-              {waiting ? <p key={list.content}>Waiting for response</p> : <p className='ai-response' key={list.content}>{list.content}</p>}
+              <p className='user-prompt'>{prompt}</p>
+              {waiting ? <p>Waiting for resposne...</p> : <p className='ai-response'>{response}</p>}
             </div>
-          ))}
+          ) : (
+            <ul>
+              {conversation.map((list) => (
+                <li>
+                  <p className='user-prompt' key={list.prompt}>{list.prompt}</p>
+                  <p className='ai-response' key={list.content}>{list.content}</p>
+                </li>
+              ))}
+            </ul>
+          )}
             <div className='prompt-field'>
               <input 
                 type="text"
@@ -69,7 +86,7 @@ function App() {
               />
               <button 
                 className='prompt-btn-chat'
-                onClick={() => sendPrompt(prompt).then((data) => setConversation(data))}
+                onClick={() => sendPrompt(prompt).then((data) => setResponse(data))}
               >
                 {/* <i className='fa fa-arrow-up w3-large'></i> */}
                 Submit Prompt
