@@ -49,6 +49,12 @@ function App() {
             id='input-field'
             value={prompt}
             onChange={(e) => setPrompt(e.target.value)}
+            tabIndex="0"
+            onKeyDown={(e) => {
+              if (e.key === "Enter") {
+                sendPrompt(prompt).then((data) => setResponse(data))
+              }
+            }}
           />
           <button 
             className='prompt-btn-chat'
@@ -91,6 +97,11 @@ function App() {
                 className='input-field'
                 id='input-field'
                 onChange={(e) => setPrompt(e.target.value)}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter") {
+                    sendPrompt(prompt).then((data) => setResponse(data))
+                  }
+                }}
               />
               <button 
                 className='prompt-btn-chat'
