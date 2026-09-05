@@ -40,30 +40,31 @@ function App() {
       { !inChat ? 
       <div className='main'>
         <h1>Welcome to your AI Chatbot!</h1>
-        
-        <div className='prompt-field'>
-          <input 
-            type="text"
-            placeholder='Enter promt here' 
-            className='input-field'
-            id='input-field'
-            value={prompt}
-            onChange={(e) => setPrompt(e.target.value)}
-            tabIndex="0"
-            onKeyDown={(e) => {
-              if (e.key === "Enter") {
-                sendPrompt(prompt).then((data) => setResponse(data))
-              }
-            }}
-          />
-          <div className='prompt-btn-chat-container'>
-            <button 
-              className='prompt-btn-chat'
-              title='Send prompt'
-              onClick={() => sendPrompt(prompt).then((data) => setResponse(data))}
-            >
-              <i className='fa fa-arrow-up w3-large'></i>
-            </button>
+        <div className='prompt-field-container'>
+          <div className='prompt-field'>
+            <input 
+              type="text"
+              placeholder='Enter promt here' 
+              className='input-field'
+              id='input-field'
+              value={prompt}
+              onChange={(e) => setPrompt(e.target.value)}
+              tabIndex="0"
+              onKeyDown={(e) => {
+                if (e.key === "Enter") {
+                  sendPrompt(prompt).then((data) => setResponse(data))
+                }
+              }}
+            />
+            <div className='prompt-btn-chat-container'>
+              <button 
+                className='prompt-btn-chat'
+                title='Send prompt'
+                onClick={() => sendPrompt(prompt).then((data) => setResponse(data))}
+              >
+                <i className='fa fa-arrow-up w3-large'></i>
+              </button>
+            </div>
           </div>
         </div>
       </div>
