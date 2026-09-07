@@ -41,28 +41,30 @@ function App() {
 
   return (
     <div className='entire-screen'>
-      { !menuOpen && <div className='menu-btn-container'>
-        <button
-          className='menu-btn'
-          onClick={() => setMenu(true)}
-        >
-          <img 
-            src={menuIcon} 
-            alt="menuIcon" 
-            width="30"
-            height="30"
-          />
-        </button>
-      </div>
-      }
+      <AnimatePresence>
+        { !menuOpen && <div className='menu-btn-container'>
+          <button
+            className='menu-btn'
+            onClick={() => setMenu(true)}
+          >
+            <img 
+              src={menuIcon} 
+              alt="menuIcon" 
+              width="30"
+              height="30"
+            />
+          </button>
+        </div>
+        }
+      </AnimatePresence>
       <AnimatePresence>
         {menuOpen &&
           <motion.div 
             className='menu'
-            initial={{opacity: 0}}
-            animate={{opacity: 1}}
-            exit={{ opacity: 0, transition: { delay: 0.2 } }}
-            transition={{ duration: 0.3 }}
+            initial={{x: -100}}
+            animate={{x: 100}}
+            exit={{x: -100}}
+            transition={{ duration: 0.1 }}
           >
             <ul className='menu-list'>
               <li className='menu-li'>New Chat</li>
