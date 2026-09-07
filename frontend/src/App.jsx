@@ -39,12 +39,14 @@ function App() {
 
   return (
     <div className='entire-screen'>
-      <button
-        className='menu-btn'
-        onClick={() => setMenu(!menuOpen)}
-      >
-        <img src={menuIcon} alt="menuIcon" />
-      </button>
+      <div className='menu-btn-container'>
+        <button
+          className='menu-btn'
+          onClick={() => setMenu(!menuOpen)}
+        >
+          <img src={menuIcon} alt="menuIcon" />
+        </button>
+      </div>
       { !inChat ? 
       <div className='main'>
         <h1>Welcome to your AI Chatbot!</h1>
