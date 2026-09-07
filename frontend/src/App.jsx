@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import heroImg from './assets/hero.png'
 import reactLogo from './assets/react.svg'
 import viteLogo from './assets/vite.svg'
+import menuIcon from './assets/menuIcon.png'
 import './App.css'
 
 function App() {
@@ -9,6 +10,7 @@ function App() {
   const [response, setResponse] = useState('')
   const [prompt, setPrompt] = useState('')
   const [waiting, setWaiting] = useState(false)
+  const [menuOpen, setMenu] = useState(false)
   const [conversation, setConversation] = useState([])
 
   async function sendPrompt(message){
@@ -37,6 +39,12 @@ function App() {
 
   return (
     <div className='entire-screen'>
+      <button
+        className='menu-btn'
+        onClick={() => setMenu(!menuOpen)}
+      >
+        <img src={menuIcon} alt="menuIcon" />
+      </button>
       { !inChat ? 
       <div className='main'>
         <h1>Welcome to your AI Chatbot!</h1>

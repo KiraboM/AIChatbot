@@ -58,6 +58,7 @@ h1{
   width: 600px;
   border-radius: 200px;
   background-color: var(--input-field-col);
+  color: black;
 }
 
 .prompt-btn{
