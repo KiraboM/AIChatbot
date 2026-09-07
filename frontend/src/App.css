@@ -7,8 +7,11 @@
 :root{
   --background-col: rgb(191, 183, 183);
   --input-field-col: rgb(187, 182, 182);
+  --btn-hover-col: rgb(123, 117, 117);
 
 }
+
+/* Handling the menu sidebar */
 
 .menu-btn-container{
   width: 100%;
@@ -19,9 +22,60 @@
 .menu-btn{
   margin-right: auto;
   background-color: white;
+  border-radius: 40px;
+  border: none;
+  width: 40px;
+  height: 40px;
+}
+
+.menu-btn:hover{
+  background-color: var(--btn-hover-col);
+  opacity: 0.5;
+}
+
+.menu-list{
+  margin-left: auto;
+  list-style-type: none;
+}
+
+.exit-menu-btn{
+  margin-right: auto;
+  background-color: white;
+  border-radius: 40px;
   border: none;
   width: 30px;
   height: 30px;
+}
+
+.exit-menu-btn:hover{
+  background-color: var(--btn-hover-col);
+  opacity: 0.5;
+}
+
+.menu{
+  display: flex;
+  flex-direction: row;
+  margin-right: auto;
+  border-color: black;
+  border: 10px;
+  width: 300px;
+  height: 100%;
+  position: absolute;
+  animation-name: slide;
+  animation-duration: 0.5s;
+}
+
+.menu-li{
+  align-self: center;
+  margin-top: 5px;
+  margin-bottom: 5px;
+  background-color: white;
+  color: black;
+}
+
+.menu-li:hover{
+  background-color: var(--btn-hover-col);
+  opacity: 0.6;
 }
 
 
@@ -31,6 +85,8 @@
   flex-direction: column;
   margin-top: 200px;
 }
+
+
 
 h1{
   font-size: xx-large;
@@ -167,5 +223,20 @@ h1{
   100%{
     opacity: 1;
     transform: translateY(-5px);
+  }
+}
+
+@keyframes slide{
+  0%{
+    transform: translateX(0px);
+  }
+  20%{
+    transform: translateX(5x);
+  }
+  50%{
+    transform: translateX(5x);
+  }
+  100%{
+    transform: translateX(5x);
   }
 }

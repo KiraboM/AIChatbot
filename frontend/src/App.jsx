@@ -3,6 +3,7 @@ import heroImg from './assets/hero.png'
 import reactLogo from './assets/react.svg'
 import viteLogo from './assets/vite.svg'
 import menuIcon from './assets/menuIcon.png'
+import exitMenu from './assets/exitMenu.png'
 import './App.css'
 
 function App() {
@@ -39,14 +40,39 @@ function App() {
 
   return (
     <div className='entire-screen'>
-      <div className='menu-btn-container'>
+      { !menuOpen && <div className='menu-btn-container'>
         <button
           className='menu-btn'
-          onClick={() => setMenu(!menuOpen)}
+          onClick={() => setMenu(true)}
         >
-          <img src={menuIcon} alt="menuIcon" />
+          <img 
+            src={menuIcon} 
+            alt="menuIcon" 
+            width="30"
+            height="30"
+          />
         </button>
       </div>
+      }
+      {menuOpen &&
+        <div className='menu'>
+          <ul className='menu-list'>
+            <li className='menu-li'>New Chat</li>
+            <li className='menu-li'>List of Chats</li>
+          </ul>
+          <button 
+            className='exit-menu-btn'
+            onClick={() => setMenu(false)}
+          >
+            <img 
+              src={exitMenu} 
+              alt="exitMenu" 
+              width="30"
+              height="30"
+            />
+          </button>
+        </div>
+      }
       { !inChat ? 
       <div className='main'>
         <h1>Welcome to your AI Chatbot!</h1>
