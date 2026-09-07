@@ -4,6 +4,7 @@ import reactLogo from './assets/react.svg'
 import viteLogo from './assets/vite.svg'
 import menuIcon from './assets/menuIcon.png'
 import exitMenu from './assets/exitMenu.png'
+import { AnimatePresence, motion } from 'motion/react'
 import './App.css'
 
 function App() {
@@ -54,25 +55,33 @@ function App() {
         </button>
       </div>
       }
-      {menuOpen &&
-        <div className='menu'>
-          <ul className='menu-list'>
-            <li className='menu-li'>New Chat</li>
-            <li className='menu-li'>List of Chats</li>
-          </ul>
-          <button 
-            className='exit-menu-btn'
-            onClick={() => setMenu(false)}
+      <AnimatePresence>
+        {menuOpen &&
+          <motion.div 
+            className='menu'
+            initial={{opacity: 0}}
+            animate={{opacity: 1}}
+            exit={{ opacity: 0, transition: { delay: 0.2 } }}
+            transition={{ duration: 0.3 }}
           >
-            <img 
-              src={exitMenu} 
-              alt="exitMenu" 
-              width="30"
-              height="30"
-            />
-          </button>
-        </div>
-      }
+            <ul className='menu-list'>
+              <li className='menu-li'>New Chat</li>
+              <li className='menu-li'>List of Chats</li>
+            </ul>
+            <button 
+              className='exit-menu-btn'
+              onClick={() => setMenu(false)}
+            >
+              <img 
+                src={exitMenu} 
+                alt="exitMenu" 
+                width="30"
+                height="30"
+              />
+            </button>
+          </motion.div>
+        }
+      </AnimatePresence>
       { !inChat ? 
       <div className='main'>
         <h1>Welcome to your AI Chatbot!</h1>
