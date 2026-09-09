@@ -48,6 +48,17 @@ services:
     dns:
       - 8.8.8.8
       - 1.1.1.1
+  postgres:
+    image: postgres:15
+    container_name: postgres_dev
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: KIR
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: KirDB
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
 
 networks:
   ollama-docker:
@@ -57,3 +68,4 @@ networks:
 
 volumes:
   frontend_node_modules_vite:
+  postgres_data:
