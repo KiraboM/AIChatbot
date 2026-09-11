@@ -5,8 +5,8 @@ from openai import OpenAI
 from sqlalchemy import Integer
 from sqlalchemy.orm import Session
 
-from database import engine, SessionLocal
-from models import Base, Chat, Conversation, User
+from app.database import Base, engine, SessionLocal
+from app.models import Chat, Conversation
 import os
 from dotenv import load_dotenv
 load_dotenv()
@@ -53,16 +53,16 @@ conversation_history = []
 class ChatRequest(BaseModel):
     prompt: str
 
-class ChatCreate(BaseModel):
-    id: int
-    name: str
-    conversation: ConversationCreate
-
 class ConversationCreate(BaseModel):
     id: int
     chat_id: int
     prompt: str
     response: str
+
+class ChatCreate(BaseModel):
+    id: int
+    name: str
+    conversation: ConversationCreate
 
 @app.post("/chat_db")
 def create_chat(chat: ChatCreate, chat_db: Session = Depends(get_chat_db)):

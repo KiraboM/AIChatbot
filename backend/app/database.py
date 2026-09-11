@@ -1,7 +1,12 @@
+import os
+
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker, declarative_base
 
-DATABASE_URL = "postgresql://postgres:secret@localhost:5432/postgres"
+DATABASE_URL = os.getenv(
+	"DATABASE_URL",
+	"postgresql+psycopg2://KIR:password@postgres:5432/KirDB",
+)
 engine = create_engine(DATABASE_URL)
 SessionLocal = sessionmaker(bind=engine, autoflush=False, autocommit=False)
 Base = declarative_base()

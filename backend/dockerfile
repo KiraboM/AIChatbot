@@ -14,6 +14,8 @@ WORKDIR /app
 COPY requirements.txt .
 RUN pip install --upgrade pip
 RUN pip install -r requirements.txt
+RUN pip install --no-cache-dir sqlalchemy psycopg2-binary 
+
 
 # Copy project
 COPY . .
