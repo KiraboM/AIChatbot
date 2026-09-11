@@ -1,10 +1,17 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, Depends
 from pydantic import BaseModel
 from fastapi.middleware.cors import CORSMiddleware
 from openai import OpenAI
+from sqlalchemy import Integer
+from sqlalchemy.orm import Session
+
+from database import engine, SessionLocal
+from models import Base, Chat, Conversation, User
 import os
 from dotenv import load_dotenv
 load_dotenv()
+Base.metadata.create_all(bind=engine)
+
 
 app = FastAPI(
     title="AI ChatBot",
@@ -13,6 +20,20 @@ app = FastAPI(
     docs_url="/docs",
     redoc_url="/redoc"
 )
+
+def get_chat_db():
+    chat_db = SessionLocal()
+    try:
+        yield chat_db
+    finally:
+        chat_db.close()
+
+def get_conversation_db():
+    conversation_db = SessionLocal()
+    try:
+        yield conversation_db
+    finally:
+        conversation_db.close()
 
 app.add_middleware(
     CORSMiddleware,
@@ -31,6 +52,53 @@ conversation_history = []
 
 class ChatRequest(BaseModel):
     prompt: str
+
+class ChatCreate(BaseModel):
+    id: int
+    name: str
+    conversation: ConversationCreate
+
+class ConversationCreate(BaseModel):
+    id: int
+    chat_id: int
+    prompt: str
+    response: str
+
+@app.post("/chat_db")
+def create_chat(chat: ChatCreate, chat_db: Session = Depends(get_chat_db)):
+    db_chat = Chat(id=chat.id, name=chat.name, conversation=chat.conversation)#User(name=user.name, email=user.email)
+    chat_db.add(db_chat)
+    chat_db.commit()
+    chat_db.refresh(db_chat)
+    return db_chat
+
+@app.post("/conversation_db")
+def create_chat(conversation: ConversationCreate, conversation_db: Session = Depends(get_conversation_db)):
+    db_conversation = Conversation(
+        id=conversation.id, 
+        chat_id=conversation.chat_id,
+        prompt=conversation.prompt,
+        response=conversation.response 
+    )
+    conversation_db.add(db_conversation)
+    conversation_db.commit()
+    conversation_db.refresh(db_conversation)
+    return db_conversation
+
+@app.get("/chat_db")
+def get_all_chats(chat_db: Session = Depends(get_chat_db)):
+    return chat_db.query(Chat).all()
+
+def get_chat(id: Integer, chat_db: Session = Depends(get_chat_db)):
+    return chat_db.query(Chat).filter(id=id).one()
+
+@app.get("/conversation_db")
+def get_all_conversations(conversation_db: Session = Depends(get_conversation_db)):
+    return conversation_db.query(Chat).all()
+
+def get_conversation(chat_id: Integer, conversation_db: Session = Depends(get_conversation_db)):
+    return conversation_db.query(Conversation).filter(chat_id=chat_id)
+
 
 @app.post("/chat")
 async def chat(request: ChatRequest):
