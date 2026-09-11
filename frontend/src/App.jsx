@@ -11,6 +11,7 @@ function App() {
   const [inChat, setChat] = useState(false)
   const [response, setResponse] = useState('')
   const [prompt, setPrompt] = useState('')
+  const [lastPrompt, setLastPrompt] = useState('')
   const [waiting, setWaiting] = useState(false)
   const [menuOpen, setMenu] = useState(false)
   const [conversation, setConversation] = useState([])
@@ -38,6 +39,10 @@ function App() {
   useEffect(() => {
     getConversation().then((data) => setConversation(data))
   }, [response])
+
+  useEffect(() => {
+    setLastPrompt(prompt)
+  }, [waiting])
 
   return (
     <div className='entire-screen'>
@@ -122,7 +127,7 @@ function App() {
           <div className='main'>
             {conversation.length === 0 ? (
               <div>
-                <p className='user-prompt'>{prompt}</p>
+                <p className='user-prompt'>{lastPrompt}</p>
                 {waiting ? <p>Waiting for resposne...</p> : <p className='ai-response'>{response.answer}</p>}
               </div>
             ) : (
@@ -137,7 +142,7 @@ function App() {
               </ul>
               {waiting && (
                 <div>
-                  <p className='user-prompt'>{prompt}</p>
+                  <p className='user-prompt'>{lastPrompt}</p>
                   <p>Waiting for resposne...</p>
                 </div>
               )}
