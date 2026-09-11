@@ -36,6 +36,8 @@ function App() {
     return conversation.json()
   }
 
+  
+
   useEffect(() => {
     getConversation().then((data) => setConversation(data))
   }, [response])
@@ -73,7 +75,11 @@ function App() {
               transition={{ duration: 0.1 }}
             >
               <ul className='menu-list'>
-                <li className='menu-li'>New Chat</li>
+                <li className='menu-li'>
+                  <button>
+                    New Chat
+                  </button>
+                </li>
                 <li className='menu-li'>List of Chats</li>
               </ul>
               <button 

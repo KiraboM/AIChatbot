@@ -52,6 +52,7 @@ conversation_history = []
 
 class ChatRequest(BaseModel):
     prompt: str
+    id: int
 
 class ConversationCreate(BaseModel):
     id: int
@@ -73,7 +74,7 @@ def create_chat(chat: ChatCreate, chat_db: Session = Depends(get_chat_db)):
     return db_chat
 
 @app.post("/conversation_db")
-def create_chat(conversation: ConversationCreate, conversation_db: Session = Depends(get_conversation_db)):
+def create_conversation(conversation: ConversationCreate, conversation_db: Session = Depends(get_conversation_db)):
     db_conversation = Conversation(
         id=conversation.id, 
         chat_id=conversation.chat_id,
