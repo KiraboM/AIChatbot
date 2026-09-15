@@ -51,13 +51,6 @@ function App() {
     setLastPrompt(prompt)
   }, [waiting])
   
-  useEffect(() => {
-    console.log("Response is:" + response.answer)
-  }, [response])
-
-  useEffect(() => {
-    console.log("Conversation is:" + conversation)
-  }, [conversation])
 
   return (
     <div className='entire-screen'>
@@ -89,7 +82,7 @@ function App() {
             >
               <ul className='menu-list'>
                 <li className='menu-li'>
-                  <button>
+                  <button className='menu-li-btn'>
                     New Chat
                   </button>
                 </li>

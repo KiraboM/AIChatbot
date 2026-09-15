@@ -91,7 +91,18 @@
   color: black;
 }
 
+.menu-li-btn{
+  background-color: white;
+  color: black;
+  border: none;
+}
+
 .menu-li:hover{
+  background-color: var(--btn-hover-col);
+  opacity: 0.6;
+}
+
+.menu-li-btn:hover{
   background-color: var(--btn-hover-col);
   opacity: 0.6;
 }
