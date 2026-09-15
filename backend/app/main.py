@@ -62,11 +62,10 @@ class ConversationCreate(BaseModel):
 class ChatCreate(BaseModel):
     id: int
     name: str
-    conversation: ConversationCreate
 
 @app.post("/chat_db")
 def create_chat(chat: ChatCreate, chat_db: Session = Depends(get_chat_db)):
-    db_chat = Chat(id=chat.id, name=chat.name, conversation=chat.conversation)#User(name=user.name, email=user.email)
+    db_chat = Chat(id=chat.id, name=chat.name)#User(name=user.name, email=user.email)
     chat_db.add(db_chat)
     chat_db.commit()
     chat_db.refresh(db_chat)

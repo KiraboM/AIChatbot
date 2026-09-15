@@ -20,6 +20,27 @@ function App() {
   const [waiting, setWaiting] = useState(false)
   const [menuOpen, setMenu] = useState(false)
   const [conversation, setConversation] = useState([])
+  const [chatID, setChatID] = useState(0)
+
+  async function createConversation(id, message){
+    const currentResponse = sendPrompt(message)
+    const newConversation = await fetch('http://localhost:8000/conversation_db',{
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ chat_id: id, prompt: message, response: currentResponse}),
+    })
+    return newConversation.json()
+  }
+
+  async function createChat(message){
+    const newChat = await fetch('http://localhost:8000/chat_db',{
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ name: message}),
+    })
+    return newChat.json()
+  }
+
 
   async function sendPrompt(message){
     setWaiting(true)
