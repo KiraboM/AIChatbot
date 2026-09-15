@@ -2,7 +2,6 @@ from fastapi import FastAPI, Depends
 from pydantic import BaseModel
 from fastapi.middleware.cors import CORSMiddleware
 from openai import OpenAI
-from sqlalchemy import Integer
 from sqlalchemy.orm import Session
 
 from app.database import Base, engine, SessionLocal
@@ -87,17 +86,13 @@ def create_conversation(conversation: ConversationCreate, conversation_db: Sessi
     return db_conversation
 
 @app.get("/chat_db")
-def get_all_chats(chat_db: Session = Depends(get_chat_db)):
-    return chat_db.query(Chat).all()
 
-def get_chat(id: Integer, chat_db: Session = Depends(get_chat_db)):
-    return chat_db.query(Chat).filter(id=id).one()
+def get_chat(id: int, chat_db: Session = Depends(get_chat_db)):
+    return chat_db.query(Chat).filter(id=id)
 
 @app.get("/conversation_db")
-def get_all_conversations(conversation_db: Session = Depends(get_conversation_db)):
-    return conversation_db.query(Chat).all()
 
-def get_conversation(chat_id: Integer, conversation_db: Session = Depends(get_conversation_db)):
+def get_conversation(chat_id: int, conversation_db: Session = Depends(get_conversation_db)):
     return conversation_db.query(Conversation).filter(chat_id=chat_id)
 
 
@@ -150,11 +145,4 @@ async def chat(request: ChatRequest):
 async def conversation():
     """ Send the conversation history to the user """
     return conversation_history
-
-
-@app.get("/health")
-async def health():
-    """Health check endpoint."""
-    return {"status": "ok"}
-
 

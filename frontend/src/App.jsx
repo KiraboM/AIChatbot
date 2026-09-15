@@ -9,7 +9,12 @@ import './App.css'
 
 function App() {
   const [inChat, setChat] = useState(false)
-  const [response, setResponse] = useState('')
+  const [response, setResponse] = useState(
+    {
+      "reasoning": "",
+      "answer": ""
+    }
+  )
   const [prompt, setPrompt] = useState('')
   const [lastPrompt, setLastPrompt] = useState('')
   const [waiting, setWaiting] = useState(false)
@@ -19,21 +24,21 @@ function App() {
   async function sendPrompt(message){
     setWaiting(true)
     setChat(true)
-    const response = await fetch('http://localhost:8000/chat',{
+    const myResponse = await fetch('http://localhost:8000/chat',{
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ prompt: message }),
+      body: JSON.stringify({ prompt: message, id: 1 }),
     })
     setWaiting(false)
-    return response.json()
+    return myResponse.json()
   }
 
   async function getConversation(){
-    const conversation = await fetch('http://localhost:8000/conversation',{
+    const myConversation = await fetch('http://localhost:8000/conversation',{
       method: "GET",
       headers: { "Content-Type": "application/json" },
     })
-    return conversation.json()
+    return myConversation.json()
   }
 
   
@@ -45,6 +50,14 @@ function App() {
   useEffect(() => {
     setLastPrompt(prompt)
   }, [waiting])
+  
+  useEffect(() => {
+    console.log("Response is:" + response.answer)
+  }, [response])
+
+  useEffect(() => {
+    console.log("Conversation is:" + conversation)
+  }, [conversation])
 
   return (
     <div className='entire-screen'>
@@ -161,6 +174,7 @@ function App() {
                     placeholder='Enter promt here' 
                     className='input-field'
                     id='input-field'
+                    value={prompt}
                     onChange={(e) => setPrompt(e.target.value)}
                     onKeyDown={(e) => {
                       if (e.key === "Enter") {
