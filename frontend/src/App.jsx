@@ -153,7 +153,7 @@ function App() {
                       <motion.div>
                         <ul>
                           {chatList.map((list) =>
-                            <li key={list.id}>{list.name}</li>
+                            <li className='chat-li' key={list.id}>{list.name}</li>
                           )}
                         </ul>
                       </motion.div>
