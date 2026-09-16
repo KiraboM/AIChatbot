@@ -41,6 +41,32 @@ function App() {
     return newChat.json()
   }
 
+  async function getChat(id){
+    const myChat = await fetch('http://localhost:8000/chat_db',{
+      method: "GET",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ id: id}),
+    })
+    return myChat.json()
+  }
+
+  async function getConversationDB(id){
+    const myConversation = await fetch('http://localhost:8000/conversation_db',{
+      method: "GET",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ id: id}),
+    })
+    return myConversation.json()
+  }
+
+  async function getAllChat(){
+    const myChats = await fetch('http://localhost:8000/chat_db_all',{
+      method: "GET",
+      headers: { "Content-Type": "application/json" },
+    })
+    return myChats.json()
+  }
+
 
   async function sendPrompt(message){
     setWaiting(true)

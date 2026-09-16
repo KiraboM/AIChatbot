@@ -94,6 +94,15 @@ def get_chat(id: int, chat_db: Session = Depends(get_chat_db)):
 def get_conversation(chat_id: int, conversation_db: Session = Depends(get_conversation_db)):
     return conversation_db.query(Conversation).filter(chat_id=chat_id)
 
+@app.get("/chat_db_all")
+
+def get_chat_all(chat_db: Session = Depends(get_chat_db)):
+    return chat_db.query(Chat).all()
+
+@app.get("/conversation_db_all")
+
+def get_conversation(chat_id: int, conversation_db: Session = Depends(get_conversation_db)):
+    return conversation_db.query(Conversation).all()
 
 @app.post("/chat")
 async def chat(request: ChatRequest):
