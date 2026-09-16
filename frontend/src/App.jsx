@@ -20,7 +20,14 @@ function App() {
   const [waiting, setWaiting] = useState(false)
   const [menuOpen, setMenu] = useState(false)
   const [conversation, setConversation] = useState([])
-  const [chatID, setChatID] = useState(0)
+  const [chatID, setChatID] = useState(-1)
+  const [chatListOpen, setChatListOpen] = useState(false)
+  const [chatList, setChatList] = useState([
+    {
+      "name": "",
+      "id": -1
+    }
+  ])
 
   async function createConversation(id, message){
     const currentResponse = sendPrompt(message)
@@ -95,6 +102,10 @@ function App() {
   useEffect(() => {
     setLastPrompt(prompt)
   }, [waiting])
+
+  useEffect(() => {
+    getAllChat().then((data) => setChatList(data))
+  }, [chatListOpen])
   
 
   return (
@@ -131,7 +142,23 @@ function App() {
                     New Chat
                   </button>
                 </li>
-                <li className='menu-li'>List of Chats</li>
+                <li className='menu-li'>
+                  <button
+                    className='menu-li-btn'
+                    onClick={() => setChatListOpen(!chatListOpen)}
+                  >
+                    List of Chats
+                  </button>
+                  { chatListOpen && <AnimatePresence>
+                      <motion.div>
+                        <ul>
+                          {chatList.map((list) =>
+                            <li key={list.id}>{list.name}</li>
+                          )}
+                        </ul>
+                      </motion.div>
+                    </AnimatePresence> }
+                </li>
               </ul>
               <button 
                 className='exit-menu-btn'
