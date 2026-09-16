@@ -42,10 +42,9 @@ function App() {
   }
 
   async function getChat(id){
-    const myChat = await fetch('http://localhost:8000/chat_db',{
+    const myChat = await fetch('http://localhost:8000/chat_db/${id}',{
       method: "GET",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ id: id}),
     })
     return myChat.json()
   }
@@ -60,7 +59,7 @@ function App() {
   }
 
   async function getAllChat(){
-    const myChats = await fetch('http://localhost:8000/chat_db_all',{
+    const myChats = await fetch('http://localhost:8000/chat_db',{
       method: "GET",
       headers: { "Content-Type": "application/json" },
     })

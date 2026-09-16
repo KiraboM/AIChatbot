@@ -63,6 +63,13 @@ class ChatCreate(BaseModel):
     id: int
     name: str
 
+class ChatResponse(BaseModel):
+    id: int
+    name: str
+
+    class Config:
+        from_attributes = True
+
 @app.post("/chat_db")
 def create_chat(chat: ChatCreate, chat_db: Session = Depends(get_chat_db)):
     db_chat = Chat(id=chat.id, name=chat.name)#User(name=user.name, email=user.email)
@@ -84,25 +91,20 @@ def create_conversation(conversation: ConversationCreate, conversation_db: Sessi
     conversation_db.refresh(db_conversation)
     return db_conversation
 
-@app.get("/chat_db")
+@app.get("/chat_db/{id}", response_model=ChatResponse)
 
 def get_chat(id: int, chat_db: Session = Depends(get_chat_db)):
-    return chat_db.query(Chat).filter(id=id)
+    return chat_db.query(Chat).filter(Chat.id==id).first()
 
 @app.get("/conversation_db")
 
 def get_conversation(chat_id: int, conversation_db: Session = Depends(get_conversation_db)):
-    return conversation_db.query(Conversation).filter(chat_id=chat_id)
+    return conversation_db.query(Conversation).filter(Conversation.chat_id==chat_id)
 
-@app.get("/chat_db_all")
+@app.get("/chat_db")
 
 def get_chat_all(chat_db: Session = Depends(get_chat_db)):
     return chat_db.query(Chat).all()
-
-@app.get("/conversation_db_all")
-
-def get_conversation(chat_id: int, conversation_db: Session = Depends(get_conversation_db)):
-    return conversation_db.query(Conversation).all()
 
 @app.post("/chat")
 async def chat(request: ChatRequest):
