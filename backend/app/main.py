@@ -96,7 +96,7 @@ def create_conversation(conversation: ConversationCreate, conversation_db: Sessi
 def get_chat(id: int, chat_db: Session = Depends(get_chat_db)):
     return chat_db.query(Chat).filter(Chat.id==id).first()
 
-@app.get("/conversation_db")
+@app.get("/conversation_db/{id}")
 
 def get_conversation(chat_id: int, conversation_db: Session = Depends(get_conversation_db)):
     return conversation_db.query(Conversation).filter(Conversation.chat_id==chat_id)

@@ -42,7 +42,7 @@ function App() {
   }
 
   async function getChat(id){
-    const myChat = await fetch('http://localhost:8000/chat_db/${id}',{
+    const myChat = await fetch(`http://localhost:8000/chat_db/${id}`,{
       method: "GET",
       headers: { "Content-Type": "application/json" },
     })
@@ -50,10 +50,9 @@ function App() {
   }
 
   async function getConversationDB(id){
-    const myConversation = await fetch('http://localhost:8000/conversation_db',{
+    const myConversation = await fetch(`http://localhost:8000/conversation_db/${id}`,{
       method: "GET",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ id: id}),
     })
     return myConversation.json()
   }
