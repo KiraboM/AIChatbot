@@ -183,7 +183,7 @@ function App() {
             <div className='prompt-field'>
               <input 
                 type="text"
-                placeholder='Enter promt here' 
+                placeholder='Enter prompt here' 
                 className='input-field'
                 id='input-field'
                 value={prompt}
@@ -191,6 +191,7 @@ function App() {
                 tabIndex="0"
                 onKeyDown={(e) => {
                   if (e.key === "Enter") {
+                    createChat(prompt).then((data) => setChatID(data.id))
                     sendPrompt(prompt).then((data) => setResponse(data))
                   }
                 }}
@@ -236,7 +237,7 @@ function App() {
                 <div className='prompt-field'>
                   <input 
                     type="text"
-                    placeholder='Enter promt here' 
+                    placeholder='Enter prompt here' 
                     className='input-field'
                     id='input-field'
                     value={prompt}

@@ -54,13 +54,11 @@ class ChatRequest(BaseModel):
     id: int
 
 class ConversationCreate(BaseModel):
-    id: int
     chat_id: int
     prompt: str
     response: str
 
 class ChatCreate(BaseModel):
-    id: int
     name: str
 
 class ChatResponse(BaseModel):
@@ -72,7 +70,7 @@ class ChatResponse(BaseModel):
 
 @app.post("/chat_db")
 def create_chat(chat: ChatCreate, chat_db: Session = Depends(get_chat_db)):
-    db_chat = Chat(id=chat.id, name=chat.name)#User(name=user.name, email=user.email)
+    db_chat = Chat(name=chat.name)
     chat_db.add(db_chat)
     chat_db.commit()
     chat_db.refresh(db_chat)
@@ -81,7 +79,6 @@ def create_chat(chat: ChatCreate, chat_db: Session = Depends(get_chat_db)):
 @app.post("/conversation_db")
 def create_conversation(conversation: ConversationCreate, conversation_db: Session = Depends(get_conversation_db)):
     db_conversation = Conversation(
-        id=conversation.id, 
         chat_id=conversation.chat_id,
         prompt=conversation.prompt,
         response=conversation.response 
