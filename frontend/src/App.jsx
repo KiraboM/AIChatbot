@@ -31,12 +31,11 @@ function App() {
 
   async function createConversation(id, message){
     const currentResponse = sendPrompt(message)
-    const newConversation = await fetch('http://localhost:8000/conversation_db',{
+    await fetch('http://localhost:8000/conversation_db',{
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ chat_id: id, prompt: message, response: currentResponse}),
     })
-    return newConversation.json()
   }
 
   async function createChat(message){
@@ -56,8 +55,8 @@ function App() {
     return myChat.json()
   }
 
-  async function getConversationDB(id){
-    const myConversation = await fetch(`http://localhost:8000/conversation_db/${id}`,{
+  async function getConversationDB(chat_id){
+    const myConversation = await fetch(`http://localhost:8000/conversation_db/${chat_id}`,{
       method: "GET",
       headers: { "Content-Type": "application/json" },
     })
@@ -79,25 +78,23 @@ function App() {
     const myResponse = await fetch('http://localhost:8000/chat',{
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ prompt: message, id: 1 }),
+      body: JSON.stringify({ prompt: message, id: chatID }),
     })
     setWaiting(false)
     return myResponse.json()
   }
 
   async function getConversation(){
-    const myConversation = await fetch('http://localhost:8000/conversation',{
+    const myConversationL = await fetch('http://localhost:8000/conversation',{
       method: "GET",
       headers: { "Content-Type": "application/json" },
     })
-    return myConversation.json()
+    return myConversationL.json()
   }
 
-  
-
   useEffect(() => {
-    getConversation().then((data) => setConversation(data))
-  }, [response])
+    getConversationDB(chatID).then((data) => setConversation(data))
+  }, [response, chatID, lastPrompt])
 
   useEffect(() => {
     setLastPrompt(prompt)
@@ -106,6 +103,10 @@ function App() {
   useEffect(() => {
     getAllChat().then((data) => setChatList(data))
   }, [chatListOpen])
+
+  /* useEffect(() => {
+    console.log(chatID)
+  }, [prompt]) */
   
 
   return (
@@ -193,6 +194,7 @@ function App() {
                   if (e.key === "Enter") {
                     createChat(prompt).then((data) => setChatID(data.id))
                     sendPrompt(prompt).then((data) => setResponse(data))
+                    createConversation(chatID, prompt)
                   }
                 }}
               />
@@ -221,7 +223,7 @@ function App() {
                 {conversation.map((list) => (
                   <li>
                     <p className='user-prompt' key={list.prompt}>{list.prompt}</p>
-                    <p className='ai-response' key={list.content}>{list.content}</p>
+                    <p className='ai-response' key={list.response}>{list.response}</p>
                   </li>
                 ))}
               </ul>
@@ -245,6 +247,8 @@ function App() {
                     onKeyDown={(e) => {
                       if (e.key === "Enter") {
                         sendPrompt(prompt).then((data) => setResponse(data))
+                        createConversation(chatID, prompt)
+    
                       }
                     }}
                   />

@@ -93,10 +93,10 @@ def create_conversation(conversation: ConversationCreate, conversation_db: Sessi
 def get_chat(id: int, chat_db: Session = Depends(get_chat_db)):
     return chat_db.query(Chat).filter(Chat.id==id).first()
 
-@app.get("/conversation_db/{id}")
+@app.get("/conversation_db/{chat_id}")
 
 def get_conversation(chat_id: int, conversation_db: Session = Depends(get_conversation_db)):
-    return conversation_db.query(Conversation).filter(Conversation.chat_id==chat_id)
+    return conversation_db.query(Conversation).filter(Conversation.chat_id==chat_id).all()
 
 @app.get("/chat_db")
 
@@ -130,7 +130,7 @@ async def chat(request: ChatRequest):
         # Ollama passes the reasoning thoughts into the "reasoning_content" property 
         # or embeds it directly in the text inside <think></think> tags.
         reasoning_content = getattr(message, "reasoning_content", "") or ""
-        
+
         conversation_history.append({
             "role": "assistant",
             "prompt": request.prompt,
