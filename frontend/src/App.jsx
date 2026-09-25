@@ -7,6 +7,8 @@ import exitMenu from './assets/exitMenu.png'
 import { AnimatePresence, motion } from 'motion/react'
 import './App.css'
 
+/* You fucked up the conversation UI. Fix it! */
+
 function App() {
   const [inChat, setChat] = useState(false)
   const [response, setResponse] = useState(
@@ -30,11 +32,12 @@ function App() {
   ])
 
   async function createConversation(id, message){
-    const currentResponse = sendPrompt(message)
+    sendPrompt(message).then((data) => setResponse(data))
+    /* const usedResponse = JSON.parse(currentResponse) */
     await fetch('http://localhost:8000/conversation_db',{
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ chat_id: id, prompt: message, response: currentResponse}),
+      body: JSON.stringify({ chat_id: id, prompt: message, response: response.answer}),
     })
   }
 
@@ -94,7 +97,7 @@ function App() {
 
   useEffect(() => {
     getConversationDB(chatID).then((data) => setConversation(data))
-  }, [response, chatID, lastPrompt])
+  }, [response, chatID])
 
   useEffect(() => {
     setLastPrompt(prompt)
@@ -193,7 +196,6 @@ function App() {
                 onKeyDown={(e) => {
                   if (e.key === "Enter") {
                     createChat(prompt).then((data) => setChatID(data.id))
-                    sendPrompt(prompt).then((data) => setResponse(data))
                     createConversation(chatID, prompt)
                   }
                 }}
@@ -202,7 +204,9 @@ function App() {
                 <button 
                   className='prompt-btn-chat'
                   title='Send prompt'
-                  onClick={() => sendPrompt(prompt).then((data) => setResponse(data))}
+                  onClick={() => 
+                    sendPrompt(prompt).then((data) => setResponse(data))
+                  }
                 >
                   <i className='fa fa-arrow-up w3-large'></i>
                 </button>
@@ -246,7 +250,6 @@ function App() {
                     onChange={(e) => setPrompt(e.target.value)}
                     onKeyDown={(e) => {
                       if (e.key === "Enter") {
-                        sendPrompt(prompt).then((data) => setResponse(data))
                         createConversation(chatID, prompt)
     
                       }
