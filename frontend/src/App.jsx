@@ -21,7 +21,8 @@ function App() {
   const [lastPrompt, setLastPrompt] = useState('')
   const [waiting, setWaiting] = useState(false)
   const [menuOpen, setMenu] = useState(false)
-  const [conversation, setConversation] = useState([])
+  const [conversation, setConversation] = useState([])//currentConvo
+  const [conversationChanged, setConversationChanged] = useState(false)
   const [chatID, setChatID] = useState(-1)
   const [chatListOpen, setChatListOpen] = useState(false)
   const [chatList, setChatList] = useState([
@@ -32,13 +33,15 @@ function App() {
   ])
 
   async function createConversation(id, message){
-    sendPrompt(message).then((data) => setResponse(data))
-    /* const usedResponse = JSON.parse(currentResponse) */
+    const data = await sendPrompt(message)
+    setResponse(data)
+    //sendPrompt(message).then((data) => setResponse(data))
     await fetch('http://localhost:8000/conversation_db',{
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ chat_id: id, prompt: message, response: response.answer}),
+      body: JSON.stringify({ chat_id: id, prompt: message, response: data.answer}),
     })
+    setConversationChanged(!conversationChanged)//conversationChanged
   }
 
   async function createChat(message){
@@ -97,7 +100,7 @@ function App() {
 
   useEffect(() => {
     getConversationDB(chatID).then((data) => setConversation(data))
-  }, [response, chatID])
+  }, [conversationChanged, chatID])//currentConvo
 
   useEffect(() => {
     setLastPrompt(prompt)
@@ -107,9 +110,13 @@ function App() {
     getAllChat().then((data) => setChatList(data))
   }, [chatListOpen])
 
-  /* useEffect(() => {
+  useEffect(() => {
+    console.log(response.answer)
+  }, [prompt])
+
+  useEffect(() => {
     console.log(chatID)
-  }, [prompt]) */
+  }, [response])
   
 
   return (
@@ -195,8 +202,10 @@ function App() {
                 tabIndex="0"
                 onKeyDown={(e) => {
                   if (e.key === "Enter") {
-                    createChat(prompt).then((data) => setChatID(data.id))
-                    createConversation(chatID, prompt)
+                    createChat(prompt).then((data) => {
+                      setChatID(data.id)
+                      createConversation(data.id, prompt)
+                    })
                   }
                 }}
               />
@@ -205,7 +214,10 @@ function App() {
                   className='prompt-btn-chat'
                   title='Send prompt'
                   onClick={() => 
-                    sendPrompt(prompt).then((data) => setResponse(data))
+                    createChat(prompt).then((data) => {
+                      setChatID(data.id)
+                      createConversation(data.id, prompt)
+                    })
                   }
                 >
                   <i className='fa fa-arrow-up w3-large'></i>
@@ -225,9 +237,9 @@ function App() {
             <div>
               <ul>
                 {conversation.map((list) => (
-                  <li>
-                    <p className='user-prompt' key={list.prompt}>{list.prompt}</p>
-                    <p className='ai-response' key={list.response}>{list.response}</p>
+                  <li key={list.id}>
+                    <p className='user-prompt'>{list.prompt}</p>
+                    <p className='ai-response'>{list.response}</p>
                   </li>
                 ))}
               </ul>
@@ -257,7 +269,7 @@ function App() {
                   />
                   <button 
                     className='prompt-btn-chat'
-                    onClick={() => sendPrompt(prompt).then((data) => setResponse(data))}
+                    onClick={() => createConversation(chatID, prompt)}
                   >
                     <i className='fa fa-arrow-up w3-large'></i>
                   </button>
