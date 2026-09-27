@@ -98,6 +98,15 @@ function App() {
     return myConversationL.json()
   }
 
+  async function deleteChat(chat_id){
+    const deletedChat = await fetch(`http://localhost:8000/conversation_db/${chat_id}`,{
+      method: "DELETE",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ id: chatID }),
+    })
+    return deletedChat.json()
+  }
+
   useEffect(() => {
     getConversationDB(chatID).then((data) => setConversation(data))
   }, [conversationChanged, chatID])//currentConvo
@@ -162,9 +171,14 @@ function App() {
                   </button>
                   { chatListOpen && <AnimatePresence>
                       <motion.div>
-                        <ul>
+                        <ul className='chat-li-container'>
                           {chatList.map((list) =>
-                            <li className='chat-li' key={list.id}>{list.name}</li>
+                            <div className='chat-li'>
+                              <li className='chat-li-inner' key={list.id}>{list.name}</li>
+                              <button className='del-btn'>
+                                <i class="fa fa-trash"></i>
+                              </button>
+                            </div>
                           )}
                         </ul>
                       </motion.div>

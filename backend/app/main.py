@@ -76,6 +76,13 @@ def create_chat(chat: ChatCreate, chat_db: Session = Depends(get_chat_db)):
     chat_db.refresh(db_chat)
     return db_chat
 
+@app.delete("/chat_db/{id}")
+def delete_chat(id: int, chat_db: Session = Depends(get_chat_db)):
+    db_chat = chat_db.query(Chat).filter(Chat.id==id).first()
+    chat_db.delete(db_chat)
+    chat_db.commit()
+    return db_chat
+
 @app.post("/conversation_db")
 def create_conversation(conversation: ConversationCreate, conversation_db: Session = Depends(get_conversation_db)):
     db_conversation = Conversation(
