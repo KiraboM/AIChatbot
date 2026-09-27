@@ -162,7 +162,7 @@ function App() {
                     New Chat
                   </button>
                 </li>
-                <li className='menu-li'>
+                <li className='menu-li-chats'>
                   <button
                     className='menu-li-btn'
                     onClick={() => setChatListOpen(!chatListOpen)}
@@ -170,12 +170,17 @@ function App() {
                     List of Chats
                   </button>
                   { chatListOpen && <AnimatePresence>
-                      <motion.div>
+                      <motion.div
+                        className='my-chats'
+                      >
                         <ul className='chat-li-container'>
                           {chatList.map((list) =>
                             <div className='chat-li'>
                               <li className='chat-li-inner' key={list.id}>{list.name}</li>
-                              <button className='del-btn'>
+                              <button 
+                                className='del-btn'
+                                title='Delete chat'
+                              >
                                 <i class="fa fa-trash"></i>
                               </button>
                             </div>
