@@ -11,6 +11,7 @@ import './App.css'
 
 function App() {
   const [inChat, setChat] = useState(false)
+  const [chatDeleted, setChatDeleted] = useState(false)
   const [response, setResponse] = useState(
     {
       "reasoning": "",
@@ -99,12 +100,11 @@ function App() {
   }
 
   async function deleteChat(chat_id){
-    const deletedChat = await fetch(`http://localhost:8000/conversation_db/${chat_id}`,{
+    await fetch(`http://localhost:8000/chat_db/${chat_id}`,{
       method: "DELETE",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ id: chatID }),
     })
-    return deletedChat.json()
   }
 
   useEffect(() => {
@@ -180,6 +180,9 @@ function App() {
                               <button 
                                 className='del-btn'
                                 title='Delete chat'
+                                onClick={() => deleteChat(list.id).then(() => 
+                                  {setChatDeleted(!chatDeleted)})
+                                }
                               >
                                 <i class="fa fa-trash"></i>
                               </button>
