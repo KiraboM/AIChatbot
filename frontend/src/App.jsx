@@ -119,13 +119,22 @@ function App() {
     getAllChat().then((data) => setChatList(data))
   }, [chatListOpen])
 
-  useEffect(() => {
+  /* useEffect(() => {
     console.log(response.answer)
-  }, [prompt])
+  }, [prompt]) */
 
   useEffect(() => {
     console.log(chatID)
-  }, [response])
+  }, [prompt])
+
+  useEffect(() => {
+    if(chatID != -1){
+      setChat(true)
+    } else{
+      setChat(false)
+    }
+  }, [chatID])
+
   
 
   return (
@@ -158,7 +167,12 @@ function App() {
             >
               <ul className='menu-list'>
                 <li className='menu-li'>
-                  <button className='menu-li-btn'>
+                  <button 
+                    className='menu-li-btn'
+                    onClick={() => 
+                      setChatID(-1)
+                    }
+                  >
                     New Chat
                   </button>
                 </li>
@@ -175,8 +189,15 @@ function App() {
                       >
                         <ul className='chat-li-container'>
                           {chatList.map((list) =>
-                            <div className='chat-li'>
-                              <li className='chat-li-inner' key={list.id}>{list.name}</li>
+                            <li className='chat-li'>
+                              <button 
+                                className='chat-li-btn' key={list.id}
+                                onClick={() => getChat(list.id).then((data) => {
+                                  setChatID(data.id)
+                                })}
+                              >
+                                {list.name}
+                              </button>
                               <button 
                                 className='del-btn'
                                 title='Delete chat'
@@ -186,7 +207,7 @@ function App() {
                               >
                                 <i class="fa fa-trash"></i>
                               </button>
-                            </div>
+                            </li>
                           )}
                         </ul>
                       </motion.div>
@@ -253,7 +274,7 @@ function App() {
             {conversation.length === 0 ? (
               <div>
                 <p className='user-prompt'>{lastPrompt}</p>
-                {waiting ? <p>Waiting for resposne...</p> : <p className='ai-response'>{response.answer}</p>}
+                {waiting ? <p>Waiting for response...</p> : <p className='ai-response'>{response.answer}</p>}
               </div>
             ) : (
             <div>
@@ -268,7 +289,7 @@ function App() {
               {waiting && (
                 <div>
                   <p className='user-prompt'>{lastPrompt}</p>
-                  <p>Waiting for resposne...</p>
+                  <p>Waiting for response...</p>
                 </div>
               )}
             </div>

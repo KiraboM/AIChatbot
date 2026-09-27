@@ -141,11 +141,12 @@
   
 }
 
-.chat-li-inner{
+.chat-li-btn{
   display: flex;
   flex-direction: row;
   width: 30px;
   opacity: 0.4;
+  border: none;
 }
 
 .chat-li:hover{
