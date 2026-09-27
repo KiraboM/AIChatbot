@@ -144,12 +144,12 @@
 .chat-li-btn{
   display: flex;
   flex-direction: row;
-  width: 30px;
+  width: fit-content;
   opacity: 0.4;
   border: none;
 }
 
-.chat-li:hover{
+.chat-li-btn:hover{
   background-color: var(--btn-hover-col);
 }
 
@@ -175,10 +175,6 @@
   display: flex;
   flex-direction: column;
   margin-top: 200px;
-}
-
-.chat{
-  flex: 1
 }
 
 
@@ -264,9 +260,12 @@ h1{
 }
 
 .chat{
+  flex: 1;
   display: flex;
   flex-direction: column;
   align-items: center;
+  animation-name: appear;
+  animation-duration: 1s;
 }
 
 .user-prompt{

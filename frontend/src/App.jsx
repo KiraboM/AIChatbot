@@ -7,11 +7,9 @@ import exitMenu from './assets/exitMenu.png'
 import { AnimatePresence, motion } from 'motion/react'
 import './App.css'
 
-/* You fucked up the conversation UI. Fix it! */
-
 function App() {
   const [inChat, setChat] = useState(false)
-  const [chatDeleted, setChatDeleted] = useState(false)
+  const [chatListChanged, setChatListChanged] = useState(false)
   const [response, setResponse] = useState(
     {
       "reasoning": "",
@@ -103,7 +101,7 @@ function App() {
     await fetch(`http://localhost:8000/chat_db/${chat_id}`,{
       method: "DELETE",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ id: chatID }),
+      body: JSON.stringify({ id: chat_id }),
     })
   }
 
@@ -117,14 +115,14 @@ function App() {
 
   useEffect(() => {
     getAllChat().then((data) => setChatList(data))
-  }, [chatListOpen])
+  }, [chatListOpen, chatListChanged])
 
   /* useEffect(() => {
     console.log(response.answer)
   }, [prompt]) */
 
   useEffect(() => {
-    console.log(chatID)
+    console.log(chatListChanged)
   }, [prompt])
 
   useEffect(() => {
@@ -202,10 +200,16 @@ function App() {
                                 className='del-btn'
                                 title='Delete chat'
                                 onClick={() => deleteChat(list.id).then(() => 
-                                  {setChatDeleted(!chatDeleted)})
+                                  {
+                                    setChatListChanged(prev => !prev)
+                                    if(chatID == list.id){
+                                      setChatID(-1)
+                                      setChat(false)
+                                    }
+                                  })
                                 }
                               >
-                                <i class="fa fa-trash"></i>
+                                <i className="fa fa-trash"></i>
                               </button>
                             </li>
                           )}
@@ -247,6 +251,7 @@ function App() {
                   if (e.key === "Enter") {
                     createChat(prompt).then((data) => {
                       setChatID(data.id)
+                      setChatListChanged(prev => !prev)
                       createConversation(data.id, prompt)
                     })
                   }
