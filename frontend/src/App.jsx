@@ -60,7 +60,7 @@ function App() {
     return myChat.json()
   }
 
-  async function getConversationDB(chat_id){
+  async function getConversation(chat_id){
     const myConversation = await fetch(`http://localhost:8000/conversation_db/${chat_id}`,{
       method: "GET",
       headers: { "Content-Type": "application/json" },
@@ -89,13 +89,13 @@ function App() {
     return myResponse.json()
   }
 
-  async function getConversation(){
+  /* async function getConversation(){
     const myConversationL = await fetch('http://localhost:8000/conversation',{
       method: "GET",
       headers: { "Content-Type": "application/json" },
     })
     return myConversationL.json()
-  }
+  } */
 
   async function deleteChat(chat_id){
     await fetch(`http://localhost:8000/chat_db/${chat_id}`,{
@@ -106,7 +106,7 @@ function App() {
   }
 
   useEffect(() => {
-    getConversationDB(chatID).then((data) => setConversation(data))
+    getConversation(chatID).then((data) => setConversation(data))
   }, [conversationChanged, chatID])//currentConvo
 
   useEffect(() => {

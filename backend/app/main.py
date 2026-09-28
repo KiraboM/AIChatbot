@@ -120,7 +120,7 @@ async def chat(request: ChatRequest):
         completion = client.chat.completions.create(
             model="qwen3:8b",
             messages=messages,
-            # Ollama expects standard hyperparameters inside extra_body or options
+
             extra_body={
                 "options": {
                     "top_k": 20,
@@ -131,12 +131,10 @@ async def chat(request: ChatRequest):
             stream=False
         )
         
-        # Extract the assistant message safely
+
         message = completion.choices[0].message
         answer_content = message.content or ""
         
-        # Ollama passes the reasoning thoughts into the "reasoning_content" property 
-        # or embeds it directly in the text inside <think></think> tags.
         reasoning_content = getattr(message, "reasoning_content", "") or ""
 
         conversation_history.append({
@@ -152,7 +150,6 @@ async def chat(request: ChatRequest):
         }
         
     except Exception as e:
-        # If something else fails, this prints the ACTUAL issue to your terminal
         print(f"CRITICAL BACKEND ERROR: {str(e)}")
         return {"error": "Internal Server Crash", "details": str(e)}
 
