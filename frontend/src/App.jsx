@@ -167,6 +167,7 @@ function App() {
                 <li className='menu-li'>
                   <button 
                     className='menu-li-btn'
+                    title='Create a new chat'
                     onClick={() => 
                       setChatID(-1)
                     }
@@ -177,10 +178,14 @@ function App() {
                 <li className='menu-li-chats'>
                   <button
                     className='menu-li-btn'
+                    title='List of your chats'
                     onClick={() => setChatListOpen(!chatListOpen)}
                   >
                     <p className='list-chats-text'>List of Chats</p>
-                    <i className="fa fa-play"></i>
+                    {chatListOpen ? 
+                      <i className="fa fa-play fa-rotate-90"></i> : 
+                      <i className="fa fa-play"></i>
+                    }
                   </button>
                   { chatListOpen && <AnimatePresence>
                       <motion.div
