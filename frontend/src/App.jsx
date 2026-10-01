@@ -281,7 +281,8 @@ function App() {
             {conversation.length === 0 ? (
               <div>
                 <p className='user-prompt'>{lastPrompt}</p>
-                {waiting ? <p>Waiting for response...</p> : <p className='ai-response'>{response.answer}</p>}
+                {waiting ? <p className='waiting'>Waiting for response...</p> : 
+                <p className='ai-response'>{response.answer}</p>}
               </div>
             ) : (
             <div>

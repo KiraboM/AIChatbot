@@ -177,6 +177,9 @@
   display: flex;
   flex-direction: column;
   margin-top: 200px;
+  overflow-y: scroll;
+  width: 800px;
+  height: 100vh;
 }
 
 
@@ -268,8 +271,14 @@ h1{
   flex-direction: column;
   align-items: center;
   height: 100vh;
+  width: 900px;
+  margin-left: 150px;
   animation-name: appear;
   animation-duration: 1s;
+}
+
+.waiting{
+  opacity: 0.4;
 }
 
 .user-prompt{
