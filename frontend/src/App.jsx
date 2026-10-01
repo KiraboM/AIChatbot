@@ -241,7 +241,6 @@ function App() {
         { !inChat ? 
         <div className='main'>
           <h1>Welcome to your AI Chatbot!</h1>
-          <div className='prompt-field-container'>
             <div className='prompt-field'>
               <input 
                 type="text"
@@ -276,7 +275,6 @@ function App() {
                 </button>
               </div>
             </div>
-          </div>
         </div>
         : 
           <div className='main'>
