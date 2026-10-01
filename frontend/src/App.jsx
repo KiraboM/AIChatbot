@@ -179,7 +179,8 @@ function App() {
                     className='menu-li-btn'
                     onClick={() => setChatListOpen(!chatListOpen)}
                   >
-                    List of Chats
+                    <p className='list-chats-text'>List of Chats</p>
+                    <i className="fa fa-play"></i>
                   </button>
                   { chatListOpen && <AnimatePresence>
                       <motion.div
@@ -277,7 +278,7 @@ function App() {
             </div>
         </div>
         : 
-          <div className='main'>
+          <div className='main-chat'>
             {conversation.length === 0 ? (
               <div>
                 <p className='user-prompt'>{lastPrompt}</p>
@@ -285,7 +286,7 @@ function App() {
                 <p className='ai-response'>{response.answer}</p>}
               </div>
             ) : (
-            <div>
+            <div className='chat-container'>
               <ul>
                 {conversation.map((list) => (
                   <li key={list.id}>
