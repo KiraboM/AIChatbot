@@ -12,7 +12,8 @@
   "dependencies": {
     "motion": "^13.2.0",
     "react": "^19.2.8",
-    "react-dom": "^19.2.8"
+    "react-dom": "^19.2.8",
+    "reactjs-popup": "^2.0.6"
   },
   "devDependencies": {
     "@types/react": "^19.2.18",

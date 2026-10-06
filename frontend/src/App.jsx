@@ -4,6 +4,8 @@ import reactLogo from './assets/react.svg'
 import viteLogo from './assets/vite.svg'
 import menuIcon from './assets/menuIcon.png'
 import exitMenu from './assets/exitMenu.png'
+import Popup from 'reactjs-popup';
+import 'reactjs-popup/dist/index.css';
 import { AnimatePresence, motion } from 'motion/react'
 import './App.css'
 
@@ -206,7 +208,46 @@ function App() {
                               >
                                 {list.name}
                               </button>
-                              <button 
+                              <Popup
+                                trigger={
+                                  <button 
+                                    className='del-btn'
+                                    title='Delete chat'
+                                  >
+                                    <i className="fa fa-trash"></i>
+                                  </button>
+                                }
+                                position={'bottom center'}
+                              >
+                                {
+                                  close => (
+                                    <div className='del-popup'>
+                                      <h2>Are you sure you want to delete a chat?</h2>
+                                      <button 
+                                        className='del-btn-2'
+                                        onClick={() => deleteChat(list.id).then(() => 
+                                          {
+                                            setChatListChanged(prev => !prev)
+                                            if(chatID == list.id){
+                                              setChatID(-1)
+                                              setChat(false)
+                                            }
+                                          })
+                                        }
+                                      >
+                                        YES
+                                      </button>
+                                      <button
+                                        className='close-popup'
+                                        onClick={() => close()}
+                                      >
+                                        NO
+                                      </button>
+                                    </div>
+                                  )
+                                }
+                              </Popup>
+                              {/* <button 
                                 className='del-btn'
                                 title='Delete chat'
                                 onClick={() => deleteChat(list.id).then(() => 
@@ -220,7 +261,7 @@ function App() {
                                 }
                               >
                                 <i className="fa fa-trash"></i>
-                              </button>
+                              </button> */}
                             </li>
                           )}
                         </ul>
