@@ -163,6 +163,12 @@ i{
   background-color: var(--btn-hover-col);
 }
 
+.popup-btn-container{
+  background-color: white;
+  display: flex;
+  flex-direction: row;
+}
+
 .del-btn{
   background-color: white;
   color: red;
@@ -171,6 +177,30 @@ i{
   margin-left: auto;
   border: none;
   opacity: 1;
+}
+
+.del-btn-2{
+  color: red;
+  font-weight: bold;
+  margin-right: auto;
+  border: none;
+  background-color: white;
+}
+
+.del-btn-2:hover{
+  color: rgba(251, 84, 84, 0.642);
+}
+
+.close-popup{
+  color: blue;
+  font-weight: bold;
+  margin-left: auto;
+  border: none;
+  background-color: white;
+}
+
+.close-popup:hover{
+  color: rgba(59, 59, 209, 0.505);
 }
 
 .del-btn:hover{

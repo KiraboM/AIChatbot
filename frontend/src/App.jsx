@@ -217,32 +217,34 @@ function App() {
                                     <i className="fa fa-trash"></i>
                                   </button>
                                 }
-                                position={'bottom center'}
+                                position={'right center'}
                               >
                                 {
                                   close => (
                                     <div className='del-popup'>
-                                      <h2>Are you sure you want to delete a chat?</h2>
-                                      <button 
-                                        className='del-btn-2'
-                                        onClick={() => deleteChat(list.id).then(() => 
-                                          {
-                                            setChatListChanged(prev => !prev)
-                                            if(chatID == list.id){
-                                              setChatID(-1)
-                                              setChat(false)
-                                            }
-                                          })
-                                        }
-                                      >
-                                        YES
-                                      </button>
-                                      <button
-                                        className='close-popup'
-                                        onClick={() => close()}
-                                      >
-                                        NO
-                                      </button>
+                                      <h2>Are you sure you want to delete this chat?</h2>
+                                      <div className='popup-btn-container'>
+                                        <button 
+                                          className='del-btn-2'
+                                          onClick={() => deleteChat(list.id).then(() => 
+                                            {
+                                              setChatListChanged(prev => !prev)
+                                              if(chatID == list.id){
+                                                setChatID(-1)
+                                                setChat(false)
+                                              }
+                                            })
+                                          }
+                                        >
+                                          YES
+                                        </button>
+                                        <button
+                                          className='close-popup'
+                                          onClick={() => close()}
+                                        >
+                                          NO
+                                        </button>
+                                      </div>
                                     </div>
                                   )
                                 }
